@@ -7,17 +7,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install npm dependencies
-          command: npm install
-      - run:
-          name: Install additional npm packages
-          command: |
-            npm install express-session
-            npm install express
-            npm install mongoose
-            npm install bcrypt
-            npm install ejs
-            npm install nodemailer
+          name: Install npm dependencies (including devDependencies for testing)
+          command: npm install --only=development
       - run:
           name: Run tests
           command: npm test

@@ -3,18 +3,50 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/node:14.17 # Official CircleCI Node.js image, Node.js version 14.17
+      - image: cimg/node:18.0 # Use Node.js image, version should match your Dockerfile
     steps:
       - checkout
       - run:
           name: Install npm dependencies
           command: npm install
       - run:
+          name: Install additional npm packages
+          command: |
+            npm install express-session
+            npm install express
+            npm install mongoose
+            npm install bcrypt
+            npm install ejs
+            npm install nodemailer
+      - run:
           name: Run tests
           command: npm test
 
+  build_and_push:
+    docker:
+      - image: cimg/node:18.0 # Continue using Node.js image for consistency
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+      - run:
+          name: Build Docker Image
+          command: |
+            docker build -t $DOCKERHUB_USERNAME/myapp1:v1 .
+      - run:
+          name: Authenticate with Docker Hub
+          command: |
+            echo $DOCKERHUB_PASS | docker login --username $DOCKERHUB_USERNAME --password-stdin
+      - run:
+          name: Push Docker Image to Docker Hub
+          command: |
+            docker push $DOCKERHUB_USERNAME/myapp1:v1
+
 workflows:
-  version: 2
-  all_tests:
+  version: 2.1
+  all_tests_and_deploy:
     jobs:
       - build
+      - build_and_push:
+          requires:
+            - build

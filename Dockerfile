@@ -1,8 +1,8 @@
-# Use an official Node runtime as a parent image
-FROM node:18-slim
+# Use a full Debian-based Node.js image
+FROM node:18
 
 # Set the working directory in the container
-WORKDIR /usr/src
+WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json
 COPY package*.json ./

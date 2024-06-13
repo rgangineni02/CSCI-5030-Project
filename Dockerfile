@@ -7,17 +7,6 @@ WORKDIR /usr/src/app
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Update npm to the latest version
-RUN npm install -g npm@latest
-
-# Install necessary system dependencies for building certain npm packages
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    python3 \
-    make \
-    g++ \
-    && rm -rf /var/lib/apt/lists/*
-
 # Install app dependencies
 RUN npm install
 

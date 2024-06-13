@@ -23,7 +23,7 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t $DOCKERHUB_USERNAME/myapp1:v1 .
+            docker build -t $DOCKERHUB_USERNAME/my-unity-web .
       - run:
           name: Authenticate with Docker Hub
           command: |
@@ -31,7 +31,7 @@ jobs:
       - run:
           name: Push Docker Image to Docker Hub
           command: |
-            docker push $DOCKERHUB_USERNAME/myapp1:v1
+            docker push $DOCKERHUB_USERNAME/my-unity-web
 
 workflows:
   version: 2.1
